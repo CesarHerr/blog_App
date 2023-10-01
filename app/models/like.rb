@@ -3,8 +3,13 @@ class Like < ApplicationRecord
   belongs_to :author, class_name: 'User', foreign_key: :user_id
 
   after_create :update_likes_counter
+  before_destroy :update_unlikes_counter
 
   def update_likes_counter
     post.update(likes_count: post.likes_count + 1)
+  end
+
+  def update_unlikes_counter
+    post.update(likes_count: post.likes_count - 1)
   end
 end
